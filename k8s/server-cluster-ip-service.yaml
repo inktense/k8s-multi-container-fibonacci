@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: server-cluster-ip-service
+
+spec:
+  # ClusterIp exposes a set of pods to other objects in the cluster,
+  # and aNodePort exposes a set of pods to the outside world (only for development)
+  type: ClusterIP
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    component: server
