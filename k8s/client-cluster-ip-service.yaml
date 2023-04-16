@@ -13,5 +13,4 @@ spec:
     targetPort: 3000
   selector:
     # This is the same as the label in client-deployment.yaml
-    app: client-pod
     component: web

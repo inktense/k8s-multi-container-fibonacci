@@ -1,6 +1,5 @@
 apiVersion: apps/v1
 kind: Deployment
-
 metadata:
   name: postgres-deployment
 
@@ -14,8 +13,23 @@ spec:
       labels:
         component: postgres
     spec:
+      volumes:
+        # Basically means "I need a volume that meets this claims"
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
       containers:
-      - name: postgres
-        image: postgres
-        ports:
-        - containerPort: 5432
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /containers/services/docker/tmp/upper
+              subPath: postgres
+          env: 
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
