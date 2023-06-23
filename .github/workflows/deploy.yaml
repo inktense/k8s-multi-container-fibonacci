@@ -57,7 +57,7 @@ jobs:
   
       - name: Apply
         run: |-
-          kubectl apply -f k8s
+          kubectl apply -f k8s --recursive
           kubectl set image deployments/server-deployment server=bibi12/multi-server-k8s-pgfix-gh:${{ env.SHA }}
           kubectl set image deployments/client-deployment client=bibi12/multi-client-k8s-gh:${{ env.SHA }}
           kubectl set image deployments/worker-deployment worker=bibi12/multi-worker-k8s-gh:${{ env.SHA }}
