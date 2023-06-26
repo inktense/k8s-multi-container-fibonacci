@@ -1,0 +1,51 @@
+    apiVersion: skaffold/v3
+    kind: Config
+    deploy:
+      kubectl: {}
+
+    build:
+      local:
+        push: false
+      artifacts:
+        - image: stephengrider/multi-client
+          context: client
+          docker:
+            dockerfile: Dockerfile.dev
+          sync:
+            manual:
+              - src: "src/**/*.js"
+                dest: .
+              - src: "src/**/*.css"
+                dest: .
+              - src: "src/**/*.html"
+                dest: .
+        - image: stephengrider/multi-worker
+          context: worker
+          docker:
+            dockerfile: Dockerfile.dev
+          sync:
+            manual:
+              - src: "*.js"
+                dest: .
+        - image: cygnetops/multi-server-pgfix-5-11
+          context: server
+          docker:
+            dockerfile: Dockerfile.dev
+          sync:
+            manual:
+              - src: "*.js"
+                dest: .
+
+    manifests:
+      rawYaml:
+        - k8s/deployments/client-deployment.yaml
+        - k8s/deployments/worker-deployment.yaml
+        - k8s/deployments/server-deployment.yaml
+        - k8s/deployments/redis-deployment.yaml
+        - k8s/deployments/postgres-deployment.yaml
+        - k8s/ingress-service.yaml
+        - k8s/redis-cluster-ip-service.yaml
+        - k8s/postgres-cluster-ip-service.yaml
+        - k8s/client-cluster-ip-service.yaml
+        - k8s/server-cluster-ip-service.yaml
+        - k8s/database-persistent-volume-claim.yaml

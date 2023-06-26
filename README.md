@@ -78,3 +78,15 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
 
 
 <b>The above steps can be found in the official [documentation](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md).</b>
+
+## Local Development
+
+First thing, you need to install [Skaffold](https://skaffold.dev/docs/install/). Run:
+```bash
+brew install skaffold
+```
+
+After that run 
+```bash
+skaffold dev
+```
